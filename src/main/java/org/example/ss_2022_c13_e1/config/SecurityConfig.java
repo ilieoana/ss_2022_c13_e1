@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCodeRequestAuthenticationProvider;
@@ -33,6 +34,8 @@ import java.util.function.Consumer;
 
 @Configuration
 public class SecurityConfig {
+
+    //  http://localhost:8080/oauth2/authorize?response_type=code&client_id=client&scope=openid&redirect_uri=https://www.vmware.com/explore/us/authorized&code_challenge=QYPAZ5NU8yvtlQ9erXrUYR-T5AGCjCF47vN-KsaI2A8&code_challenge_method=S256
 
     @Bean
     @Order(1) // for authorization server
@@ -116,7 +119,12 @@ public class SecurityConfig {
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> oAuth2TokenCustomizer() {
         return context -> {
-            context.getClaims().claim("test", "test"); // adding some extra fields to payload of jwt token
+            context.getClaims().claim("test", "test");// adding some extra fields to payload of jwt token
+
+            var authorities = context.getPrincipal().getAuthorities(); // the list of granted authorities
+
+            // Change the collection of GrantedAuthority to simple strings
+            context.getClaims().claim("authorities", authorities.stream().map(GrantedAuthority::getAuthority).toList());
         };
     }
 }
