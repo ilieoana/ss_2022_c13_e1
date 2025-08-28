@@ -18,7 +18,7 @@ YouTube.
 This project was implemented as part of my learning journey with Spring Security. I followed the tutorial closely and:
 
 - Recreated the project from scratch in my local environment.
-- Set up an OAuth2 Authorization Server using Spring Security 6 and the Spring Authorization Server project.
+- Set up an OAuth2 Authorization Server using Spring Security 6.
 - This lesson involves moving from in-memory users and clients to using ones whose information is saved in the database.
 - In achieving this, the following concepts were implemented:
     - JPA Hibernate to create tables according to User and Client entities;
